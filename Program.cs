@@ -1,4 +1,3 @@
-
 namespace CICDTest
 {
     public class Program
@@ -7,10 +6,14 @@ namespace CICDTest
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
+            
+            builder.WebHost.ConfigureKestrel(options =>
+            {
+                options.ListenAnyIP(80); // Listen on port 80 inside the container
+            });
 
+            // Add services to the container.
             builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
@@ -26,7 +29,6 @@ namespace CICDTest
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
-
 
             app.MapControllers();
 
